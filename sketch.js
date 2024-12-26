@@ -1,5 +1,8 @@
+const DIMENSIONS = [1450, 780]
+
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(DIMENSIONS[0], DIMENSIONS[1]);
+  UI.create()
 }
 
 function draw() {
