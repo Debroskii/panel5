@@ -7,4 +7,17 @@ function setup() {
 
 function draw() {
   background(220);
+  UI.update();
+}
+
+function mousePressed() {
+  for(const panel of UI.panels) {
+    panel.pressed()
+  }
+}
+
+function mouseReleased() {
+  for(const panel of UI.panels) {
+    panel.released()
+  }
 }
