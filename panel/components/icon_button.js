@@ -13,6 +13,7 @@ class IconButton {
         button.style("width", this.width + "px")
         button.style("height", this.height + "px")
         button.attribute("title", this.title)
+        button.attribute("tabindex", -1)
 
         let icon = createImg(this.icon_filepath)
         icon.addClass("PanelButtonIcon").addClass("PanelIcon")
@@ -23,5 +24,9 @@ class IconButton {
         button.mouseClicked(this.on_click)
 
         return button
+    }
+
+    static Close(width, on_click) {
+        return new IconButton("assets/icon/x.png", on_click, width, width, "Close")
     }
 }
