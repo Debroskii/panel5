@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 :root {
     --panel-background: rgba(0, 0, 0, 0.5);
+    --panel-text-color: rgba(255, 255, 255, 1);
+    --panel-font: monospace;
 
     --element-background: rgba(0, 0, 0, 0.25);
     --button-border: none;
@@ -39,3 +43,36 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+.Panel {
+    background: var(--panel-background);
+}
+
+.PanelTitleBar {
+    display: flex;
+    align-items: center;
+    width: inherit;
+    height: 20px;
+    background: var(--element-background);
+}
+
+.PanelTitleBar .PanelButton { 
+    background: none;
+}
+
+.PanelTitle {
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    color: var(--panel-text-color);
+    font-family: var(--panel-font);
+}
+
+.nohighlight-text {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
