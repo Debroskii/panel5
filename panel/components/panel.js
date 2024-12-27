@@ -5,10 +5,7 @@ class Panel {
         this.width = width
         this.height = min(height, 550)
         this.title = title
-
-        this.registry = new ValueRegistry()
-        this.packed_reg = null
-
+        
         this.dragging = false
 
         this.panel_div = createDiv("")
@@ -22,8 +19,6 @@ class Panel {
     }
 
     create() {
-        this.packed_reg = this.registry.pack()
-        this.panel_div.child(this.packed_reg)
         return this.panel_div
     }
 
