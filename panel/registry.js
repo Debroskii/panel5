@@ -13,10 +13,11 @@ class Registry {
     }
 
     // Adds a number entry to the registry
-    addNumber(key, value, editable = true) {
+    addNumber(key, value, label = key, editable = true) {
         let entry = {
             key: key,
             value: value,
+            label: label,
             editable: editable,
             type: Registry.EntryType.NUMBER
         }
@@ -25,10 +26,11 @@ class Registry {
     }
 
     // Adds a boolean entry to the registry
-    addBoolean(key, value, editable = true) {
+    addBoolean(key, value, label = key, editable = true) {
         let entry = {
             key: key,
             value: value,
+            label: label,
             editable: editable,
             type: Registry.EntryType.BOOLEAN
         }
@@ -37,10 +39,11 @@ class Registry {
     }
 
     // Adds a color entry to the registry
-    addColor(key, value, editable = true) {
+    addColor(key, value, label = key, editable = true) {
         let entry = {
             key: key,
             value: value,
+            label: label,
             editable: editable,
             type: Registry.EntryType.COLOR
         }
@@ -55,6 +58,23 @@ class Registry {
                 return entry.value
             }
         }
+    }
+
+    // Syncs all of the registry values to the values of their HTML input object
+    sync() {
+        // Iterates through all of the entries
+        for(let entry of this.entries) {
+            // Only sync/lookup the values of the entry if it is flagged as editable
+            if(entry.editable) {
+                if(entry.type == Registry.EntryType.NUMBER) {
+                    entry.value = document.getElementById(this.id + "-" + entry.key).value
+                } else if(entry.type == Registry.EntryType.BOOLEAN) {
+                    entry.value = document.getElementById(this.id + "-" + entry.key).checked
+                } else if(entry.type == Registry.EntryType.COLOR) {
+                    entry.value = color(document.getElementById(this.id + "-" + entry.key).value)
+                }
+            }
+        } 
     }
 }
 
@@ -74,22 +94,6 @@ class GlobalRegistry {
                 return registry
             }
         }
-    }
-
-    // Syncs all of the registry values to the values of their HTML input object
-    static sync() {
-        // Iterates through all of the registries and all of their entries
-        for(let registry of GlobalRegistry.registries) {
-            for(let entry of registry.entries) {
-                // Only sync/lookup the values of the entry if it is flagged as editable
-                if(entry.editable) {
-                    switch(entry.type) {
-                        case Registry.EntryType.NUMBER: entry.value = document.getElementById(registry.id + "-" + entry.key).value
-                        case Registry.EntryType.BOOLEAN: entry.value = document.getElementById(registry.id + "-" + entry.key).checked
-                        case Registry.EntryType.COLOR: entry.value = color(document.getElementById(registry.id + "-" + entry.key).value)
-                    }
-                }
-            }
-        }
+        return new Registry("")
     }
 }
