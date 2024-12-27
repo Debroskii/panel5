@@ -1,10 +1,11 @@
 class Panel {
-    constructor(position, width, height, title = "") {
+    constructor(position, width, height, title = "", registry = new Registry("")) {
         this.position = position
         this.offset = createVector(0, 0)
         this.width = width
         this.height = min(height, 550)
         this.title = title
+        this.registry_id = registry.id
         
         this.dragging = false
 
@@ -18,7 +19,42 @@ class Panel {
         this.panel_div.child(this.create_title_bar())
     }
 
+    // Binds a registry to show content on this panel
+    bind(registry) {
+        this.registry_id = registry.id
+    }
+
     create() {
+        if(this.registry_id == "") return this.panel_div
+        let registry_div = createDiv("").addClass("PanelRegistry")
+        for(let entry of GlobalRegistry.getRegistry(this.registry_id).entries) {
+            let entry_div = createDiv("").addClass("PanelRegistryEntry")
+            let entry_label = createP(entry.label).addClass("PanelRegistryEntryLabel")
+            let entry_input
+
+            if(entry.editable) {
+                if(entry.type == Registry.EntryType.NUMBER) {
+                    entry_input = createInput(entry.value).id(this.registry_id + "-" + entry.key)
+                    entry_input.addClass("PanelRegistryEntryNumberInput").addClass("PanelRegistryEntryInput")
+                    entry_input.attribute("type", "number")
+                } else if (entry.type == Registry.EntryType.COLOR) {
+                    entry_input = createColorPicker(entry.value).id(this.registry_id + "-" + entry.key)
+                    entry_input.addClass("PanelRegistryEntryColorInput").addClass("PanelRegistryEntryInput")
+                } else if (entry.type == Registry.EntryType.BOOLEAN) {
+                    entry_input = createInput("", entry.value).id(this.registry_id + "-" + entry.key)
+                    entry_input.addClass("PanelRegistryEntryCheckboxInput").addClass("PanelRegistryEntryInput")
+                    entry_input.attribute("type", "checkbox")
+                }
+            } else {
+                entry_input = createP(entry.value).addClass("PanelRegistryEntryConstant")
+            }
+
+            entry_div.child(entry_label)
+            entry_div.child(entry_input)
+            registry_div.child(entry_div)
+        }
+
+        this.panel_div.child(registry_div)
         return this.panel_div
     }
 
@@ -39,17 +75,21 @@ class Panel {
         } else {
             this.panel_div.style("box-shadow", "none")
         }
+
+        GlobalRegistry.getRegistry(this.registry_id).sync()
     }
 
     pressed() {
         if(this.within_dragpad()) {
             this.dragging = true
             this.offset.set(this.position.x - mouseX, this.position.y - mouseY)
+            this.panel_div.attribute("data-focused", true)
         }
     }
 
     released() {
         this.dragging = false
+        this.panel_div.attribute("data-focused", false)
     }
 
     within_dragpad() {
