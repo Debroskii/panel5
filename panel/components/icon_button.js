@@ -5,28 +5,29 @@ class IconButton {
         this.width = width
         this.height = height
         this.title = title
+        this.button = createButton("")
+        this.button.addClass("PanelButton")
+        this.button.style("width", this.width + "px")
+        this.button.style("height", this.height + "px")
+        this.button.attribute("title", this.title)
+        this.button.attribute("tabindex", -1)
+
+        this.icon = createImg(this.icon_filepath)
+        this.icon.addClass("PanelButtonIcon").addClass("PanelIcon")
+        this.icon.style("width", this.width * 0.75 + "px")
+        this.icon.style("height", this.height * 0.75 + "px")
+        this.button.child(this.icon)
+
+        this.button.mouseClicked(this.on_click)
     }
 
     create() {
-        let button = createButton("")
-        button.addClass("PanelButton")
-        button.style("width", this.width + "px")
-        button.style("height", this.height + "px")
-        button.attribute("title", this.title)
-        button.attribute("tabindex", -1)
-
-        let icon = createImg(this.icon_filepath)
-        icon.addClass("PanelButtonIcon").addClass("PanelIcon")
-        icon.style("width", this.width * 0.75 + "px")
-        icon.style("height", this.height * 0.75 + "px")
-        button.child(icon)
-
-        button.mouseClicked(this.on_click)
-
-        return button
+        return this.button
     }
 
     static Close(width, on_click) {
-        return new IconButton("assets/icon/x.png", on_click, width, width, "Close")
+        let button = new IconButton("assets/icon/x.png", on_click, width, width, "Close")
+        button.button.addClass("CloseButton")
+        return button
     }
 }
