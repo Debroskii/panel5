@@ -19,6 +19,15 @@ class UI {
     }
 
     static update() {
+        let ui = document.getElementById("ui")
+        let children = ui.children
+
+        for(let i = 1; i < children.length; i++) {
+            if(children[i].getAttribute("data-focused") == "true" && i < children.length) {
+                ui.appendChild(children[i])
+            }
+        }
+
         for(const panel of UI.panels) {
             panel.update()
         }
