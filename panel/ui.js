@@ -1,6 +1,7 @@
 class UI {
     static icon_bar = new IconBar()
     static panels = []
+    static recent_panel = 0
 
     static create() {
         let ui = createDiv("")
