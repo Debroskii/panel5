@@ -1,14 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
+    --ui-font: monospace;
+    --ui-error: rgba(250, 83, 67, 1);
+    --ui-accent: rgb(114, 104, 255);
+    --ui-blur: 5px;
+
     --panel-background: rgba(0, 0, 0, 0.5);
     --panel-text-color: rgba(255, 255, 255, 1);
-    --panel-font: monospace;
+    --panel-rounding: 5px;
 
     --element-background: rgba(0, 0, 0, 0.25);
     --button-border: none;
     --button-hover-border: 1px solid rgba(255, 255, 255, 255);
-    --button-transition: all 0.1s ease-in-out;
+    --button-transition: all 0.2s ease-in-out;
 }
 
 .PanelButton {
@@ -26,6 +31,10 @@
     border: var(--button-hover-border);
 }
 
+.CloseButton:hover {
+    border: 1px solid var(--ui-error);
+}
+
 .PanelButtonIcon {
     filter: invert();
     width: inherit;
@@ -33,6 +42,7 @@
 }
 
 #panelIconBar {
+    backdrop-filter: blur(var(--ui-blur));
     background: var(--panel-background);
     width: auto;
 }
@@ -45,7 +55,10 @@
 }
 
 .Panel {
+    backdrop-filter: blur(var(--ui-blur));
     background: var(--panel-background);
+    border-radius: var(--panel-rounding);
+    display: flex;
 }
 
 .PanelTitleBar {
@@ -53,11 +66,13 @@
     align-items: center;
     width: inherit;
     height: 20px;
+    border-radius: var(--panel-rounding) var(--panel-rounding) 0 0;
     background: var(--element-background);
 }
 
-.PanelTitleBar .PanelButton { 
+.PanelTitleBar .CloseButton { 
     background: none;
+    border-radius: var(--panel-rounding) 0 0 0
 }
 
 .PanelTitle {
@@ -65,7 +80,7 @@
     margin: 0;
     margin-left: 10px;
     color: var(--panel-text-color);
-    font-family: var(--panel-font);
+    font-family: var(--ui-font);
 }
 
 .nohighlight-text {
@@ -75,4 +90,12 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
+}
+
+.RegistryEntry {
+    position: inherit
+}
+
+.RegisteredValueLabel {
+
+}
