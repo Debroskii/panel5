@@ -12,6 +12,7 @@
     --panel-background: rgba(0, 0, 0, 0.5);
     --panel-rounding: 5px;
     --panel-border: 1px solid var(--border-color);
+    --panel-hover-border: 1px solid rgba(255, 255, 255, 0.75);
     --panel-close-outline: 0 0 0 3px var(--no-color);
     --panel-lock-outline: 0 0 0 3px var(--accent-color);
 }
@@ -39,7 +40,6 @@
     transition: border 0.1s ease-in-out;;
     padding: none;
     margin: 0;
-    cursor: move;
 }
 
 button {
@@ -149,4 +149,12 @@ button {
     padding: 5px;
     margin-right: 10px;
     width: 50px;
+}
+
+.StaticTopBar {
+    border-radius: 0;
+    border: none;
+    transform: translateY(-1px);
+    width: 101vw;
+    justify-self: center;
 }
