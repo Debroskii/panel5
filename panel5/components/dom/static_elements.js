@@ -44,7 +44,7 @@ function createNumberInput(default_value) {
 }
 
 function createBooleanInput(default_value) {
-    return createCheckbox("", default_value).addClass("BooleanInput")
+    return createInput(default_value).attribute("type", "checkbox").addClass("BooleanInput").attribute("checked", default_value).attribute("value", default_value)
 }
 
 function createColorInput(default_value) {
