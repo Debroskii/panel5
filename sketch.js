@@ -1,31 +1,35 @@
-let DIMENSIONS
+let test_registry
 
 function setup() {
-  DIMENSIONS = [windowWidth, windowHeight]
-  createCanvas(DIMENSIONS[0], DIMENSIONS[1]);
+  document.addEventListener('contextmenu', function(e) {
+    alert("You've tried to open context menu"); //here you draw your own menu
+    e.preventDefault();
+  }, false);
+  createCanvas(windowWidth, windowHeight);
 
-  UI.create()
+  test_registry = new Registry("test_registry")
+  test_registry.registerString("str", "hehehe")
+  test_registry.registerNumber("num", 0.0)
+  test_registry.registerBoolean("bool", true)
+  test_registry.registerColor("color", color(255, 0, 255))
+  test_registry.registerDropdown("dropdown", "a", ["a", "b", "c"])
+
+
+  GlobalRegistry.addRegistry(test_registry)
+
+  UI.initialize()
+  UI.addPanel(new RegistryPanel(test_registry, createVector(400, 400), createVector(150, 250), "TEST PANEL"))
 }
 
 function draw() {
-  background(241);
-  UI.update();
-}
-
-function keyPressed() {
-  if(key === 't') {
-    UI.panels.push(Panel.default_at(createVector(mouseX, mouseY)))
-  }
+  background(0);
+  UI.updatePanels();
 }
 
 function mousePressed() {
-  for(const panel of UI.panels) {
-    panel.pressed()
-  }
+  UI.handleMousePress()
 }
 
 function mouseReleased() {
-  for(const panel of UI.panels) {
-    panel.released()
-  }
+  UI.handleMouseRelease()
 }
