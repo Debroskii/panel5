@@ -5,6 +5,9 @@ class UI {
     static initialize() {
         UI.DOMRoot = createDiv("").id("UIRoot")
         UI.DOMRoot.style("width", windowWidth + "px").style("height", windowHeight + "px")
+
+        this.panels.push(new StaticTopBar())
+
         for(const panel of UI.panels) {
             UI.DOMRoot.child(panel.element)
         }
