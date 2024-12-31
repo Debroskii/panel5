@@ -1,8 +1,10 @@
 class Panel extends Draggable {
-    constructor(id, position, dimensions, title = id) {
-        super(position, createVector(dimensions.x, 20))
+    constructor(id, position, dimensions, title = id, _static = false) {
+        super(position, createVector(dimensions.x, 20), _static)
         this.id = id,
         this.dimensions = dimensions
+        this.locked = _static
+        this._static = _static
 
         // DOM Element
         this.element = createDiv("").id(this.id).addClass("Panel")
@@ -24,10 +26,13 @@ class Panel extends Draggable {
         super.update(this.dimensions.y - 20)
         this.element.style("top", this.position.y + "px").style("left", this.position.x + "px")
         this.element.style("box-shadow", "none")
-        document.documentElement.style.setProperty("--border-color", "rgba(255, 255, 255, 0.25)")
+        document.getElementById(this.id).style.setProperty("border", "var(--panel-border)")
+        if(!this.locked) document.getElementById(this.id).children[0].style.setProperty("border-bottom", "var(--panel-border)")
+        document.getElementById(this.id).children[0].style.setProperty("cursor", this._static ? "arrow" : "move")
         
-        if(this.draggable()) {
-            document.documentElement.style.setProperty("--border-color", "rgba(255, 255, 255, 0.75)")
+        if(this.draggable() && !this._static) {
+            document.getElementById(this.id).style.setProperty("border", "var(--panel-hover-border)")
+            if(!this.locked) document.getElementById(this.id).children[0].style.setProperty("border-bottom", "var(--panel-hover-border)")
             if(mouseX < this.position.x + 20) {
                 this.element.style("box-shadow", "var(--panel-close-outline)")
             } else if(mouseX > this.position.x + this.size.x - 20) {
@@ -35,9 +40,9 @@ class Panel extends Draggable {
             }
         }
 
-        if(this.dragging && this.locked) {
+        if(this.dragging && this.locked && !this._static) {
             this.element.style("box-shadow", "var(--panel-lock-outline)")
-        } 
+        }
     }
 
     toggleLock() {
