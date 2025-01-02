@@ -10,7 +10,7 @@ class Panel extends Draggable {
         this.element = createDiv("").id(this.id).addClass("Panel")
         this.element.style("width", this.dimensions.x + "px").style("height", this.dimensions.y + "px")
         this.element.child(createTitleBar(title, [createIconButton("assets/icon/close.png", () => {
-            this.element.style("opacity", 0)
+            this.element.style("opacity", "0")
             setTimeout(() => {
                 this.element.remove()
                 UI.removePanel(this)
@@ -29,7 +29,9 @@ class Panel extends Draggable {
         document.getElementById(this.id).style.setProperty("border", "var(--panel-border)")
         if(!this.locked) document.getElementById(this.id).children[0].style.setProperty("border-bottom", "var(--panel-border)")
         document.getElementById(this.id).children[0].style.setProperty("cursor", this._static ? "arrow" : "move")
-        
+    }
+
+    updateStyle() {
         if(this.draggable() && !this._static) {
             document.getElementById(this.id).style.setProperty("border", "var(--panel-hover-border)")
             if(!this.locked) document.getElementById(this.id).children[0].style.setProperty("border-bottom", "var(--panel-hover-border)")
@@ -52,5 +54,26 @@ class Panel extends Draggable {
         titlebar.style.setProperty("border", this.locked ? "1px solid var(--accent-color" : "none")
         titlebar.style.setProperty("border-bottom", this.locked ? "1px solid var(--accent-color" : "var(--panel-border)")
         icon.src = this.locked ? "assets/icon/closed_lock.png" : "assets/icon/open_lock.png"
+    }
+
+    pressed() {
+        super.pressed()
+        if(this.draggable()) {
+            document.getElementById(this.id).setAttribute("data-focused", true)
+            return true
+        } else {
+            return false
+        }
+    }
+
+    released() {
+        document.getElementById(this.id).setAttribute("data-focused", false)
+        super.released()
+    }
+
+    overButtons() {
+        if(this.draggable()) {
+            return (mouseX < this.position.x + 20 || mouseX > this.position.x + this.size.x - 20)
+        }
     }
 }
