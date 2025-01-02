@@ -23,15 +23,43 @@ class UI {
     }
 
     static updatePanels() {
-        for(const panel of UI.panels) {
+        let highestIndexPanel = null;
+        let highestIndex = -1;
+
+        for (const panel of UI.panels) {
             panel.update()
+            if (panel.draggable()) {
+                const index = Array.from(document.getElementById('UIRoot').children).indexOf(panel.element.elt);
+                if (index > highestIndex) {
+                    highestIndex = index;
+                    highestIndexPanel = panel;
+                }
+            }
+        }
+
+        if (highestIndexPanel) {
+            highestIndexPanel.updateStyle()
         }
     }
 
     static handleMousePress() {
-        if(mouseButton === LEFT) {
-            for(const panel of UI.panels) {
-                panel.pressed()
+        if (mouseButton === LEFT) {
+            let highestIndexPanel = null;
+            let highestIndex = -1;
+
+            for (const panel of UI.panels) {
+                if (panel.draggable()) {
+                    const index = Array.from(document.getElementById('UIRoot').children).indexOf(panel.element.elt || panel.element);
+                    if (index > highestIndex) {
+                        highestIndex = index;
+                        highestIndexPanel = panel;
+                    }
+                }
+            }
+
+            if (highestIndexPanel && !highestIndexPanel.overButtons()) {
+                highestIndexPanel.pressed();
+                document.getElementById('UIRoot').appendChild(highestIndexPanel.element.elt || highestIndexPanel.element);
             }
         }
     }
