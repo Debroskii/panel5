@@ -24,7 +24,7 @@
 .Panel {
     position: absolute;
     background: var(--panel-background);
-    backdrop-filter: blur(--ui-blur);
+    backdrop-filter: blur(var(--background-blur));
     border-radius: var(--panel-rounding);
     border: var(--panel-border);
     transition: box-shadow 0.1s ease-in-out, opacity 0.1s ease-in-out, border 0.1s ease-in-out;
