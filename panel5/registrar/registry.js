@@ -56,7 +56,7 @@ class Registry {
     }
 
     // Returns the entry with the given key
-    getEntry(key) {
+    get(key) {
         return this.entries.find(entry => entry.key === key)
     }
 
