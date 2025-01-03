@@ -7,6 +7,7 @@
     --border-color: rgba(255, 255, 255, 0.25);
     --accent-color: rgba(252, 186, 3, 1);
     --no-color: rgb(255, 41, 41);
+    --font-scale: 1;
 
     --panel-font-size: 9px;
     --panel-background: rgba(0, 0, 0, 0.5);
@@ -67,12 +68,13 @@ button {
 .TitleBarActionGroup {
     min-width: 20px;
     min-height: 20px;
+    max-height: 20px;
 }
 
 .TitleBarTitle {
     font-family: var(--title-font);
     font-weight: 700;
-    font-size: 12px;
+    font-size: calc(var(--font-scale) * 12px);
     padding: none;
     margin: 0;
 }
@@ -98,7 +100,7 @@ button {
     font-family: var(--font);
     color: white;
     font-weight: 400;
-    font-size: var(--panel-font-size);
+    font-size: calc(var(--font-scale) * var(--panel-font-size));
     margin-left: 10px;
 }
 
@@ -106,7 +108,7 @@ button {
     font-family: var(--font);
     color: white;
     font-weight: 400;
-    font-size: var(--panel-font-size);
+    font-size: calc(var(--font-scale) * var(--panel-font-size));
     background: var(--panel-background);
     border: none;
     padding: 5px;
@@ -118,7 +120,7 @@ button {
     font-family: var(--font);
     color: white;
     font-weight: 400;
-    font-size: var(--panel-font-size);
+    font-size: calc(var(--font-scale) * var(--panel-font-size));
     background: var(--panel-background);
     border: none;
     padding: 5px;
@@ -143,7 +145,7 @@ button {
     font-family: var(--font);
     color: white;
     font-weight: 400;
-    font-size: var(--panel-font-size);
+    font-size: calc(var(--font-scale) * var(--panel-font-size));
     background: var(--panel-background);
     border: none;
     padding: 5px;
@@ -158,3 +160,41 @@ button {
     width: 101vw;
     justify-self: center;
 }
+
+#ContextMenu {
+    position: absolute;
+    background: var(--panel-background);
+    backdrop-filter: var(--background-blur);
+    border-radius: var(--panel-rounding);
+    width: 150px;
+    height: auto;
+    opacity: 0%;
+    transition: opacity 0.075s ease-in-out;
+  }
+  
+  .ContextMenuAction {
+    border: none;
+    width: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    padding: 5px;
+    font-family: "IBM Plex Mono";
+    cursor: pointer;
+    color: white;
+    transition: color 0.05 ease-in-out;
+  }
+  
+  .ContextMenuAction:hover {
+    color: rgb(255, 199, 110)
+  }
+  
+  .ContextMenuActionLabel {
+    font-size: calc(var(--font-scale) * 8px);
+  }
+  
+  .ContextMenuActionShortcut {
+    color: rgba(255, 255, 255, 0.25);
+    font-size:calc(var(--font-scale) * 6px);
+  }
