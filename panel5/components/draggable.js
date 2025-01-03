@@ -11,10 +11,10 @@ class Draggable {
     update(additional_height = 0) {
         if(this.dragging && !this.locked) {
             if(this.withinX()) {
-                this.position.x = mouseX + this.offset.x
+                this.position.x -= (this.position.x - ceil((mouseX + this.offset.x) / UI.panel5Config.get("grid_unit_size").value) * UI.panel5Config.get("grid_unit_size").value) * 0.9
             }
             if(this.withinY(additional_height)) {
-                this.position.y = mouseY + this.offset.y
+                this.position.y -= (this.position.y - ceil((mouseY + this.offset.y) / UI.panel5Config.get("grid_unit_size").value) * UI.panel5Config.get("grid_unit_size").value) * 0.9
             }
         }
     }
