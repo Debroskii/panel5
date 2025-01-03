@@ -1,10 +1,6 @@
 let test_registry
 
 function setup() {
-  document.addEventListener('contextmenu', function(e) {
-    alert("You've tried to open context menu"); //here you draw your own menu
-    e.preventDefault();
-  }, false);
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
 
@@ -15,17 +11,18 @@ function setup() {
   test_registry.registerColor("color", color(255, 0, 255))
   test_registry.registerDropdown("dropdown", "a", ["a", "b", "c"], "Yes...")
 
-
   GlobalRegistry.addRegistry(test_registry)
 
+  KeybindRegistry.addEntry([65, 16], UI.autoAlignAllPanels)
+  console.log(KeybindRegistry.entries)
+
   UI.initialize()
-  UI.addPanel(new RegistryPanel(test_registry, createVector(400, 400), createVector(150, 250), "TEST PANEL"))
-  UI.addPanel(new Panel("r", createVector(100, 100), createVector(200, 200), "ANOTHER TEST PANEL"))
 }
 
 function draw() {
   background(0);
   UI.updatePanels();
+  KeybindRegistry.loop();
 }
 
 function mousePressed() {
