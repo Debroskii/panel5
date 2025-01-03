@@ -1,3 +1,6 @@
+/**
+ * A wrapper class for the panel based UI system that handles the creation, removal, and updating of panels.
+ */
 class UI {
     static panels = []
     static DOMRoot
@@ -5,6 +8,9 @@ class UI {
     static panel5Config
     static contextMenu
 
+    /**
+     * Initializes the UI system by creating the root DOM element and adding the top bar.
+     */
     static initialize() {
         UI.panel5Config = new Registry("panel5_config")
         UI.panel5Config.registerBoolean("show_fps", false, "Show FPS")
@@ -26,14 +32,18 @@ class UI {
             e.preventDefault();
           }, false);
 
-        for(let i = 0; i < ceil(windowHeight / UI.panel5Config.get("grid_unit_size").value); i++) {
+        for(let i = 0; i < ceil(windowHeight / 20); i++) {
             this.panelNoZone.push([])
-            for(let t = 0; t < ceil(windowWidth / UI.panel5Config.get("grid_unit_size").value); t++) {
+            for(let t = 0; t < ceil(windowWidth / 20); t++) {
                 this.panelNoZone[i].push(false)
             }
         }
     }   
 
+    /**
+     * Adds a panel to the UI
+     * @param {*} panel The panel to add
+     */
     static addPanel(panel) {
         const panelWidth = panel.dimensions.x;
         const panelHeight = panel.dimensions.y;
@@ -53,6 +63,11 @@ class UI {
         }
     }
 
+    /**
+     * Finds an optimal position for a panel
+     * @param {*} panel The panel to find a position for
+     * @returns The optimal position for the panel
+     */
     static findOptimalPosition(panel) {
         const rows = this.panelNoZone.length;
         const cols = this.panelNoZone[0].length;
@@ -81,10 +96,17 @@ class UI {
         return null;
     }
 
+    /**
+     * Removes a panel from the UI
+     * @param {*} panel The panel to remove
+     */
     static removePanel(panel) {
         UI.panels.splice(UI.panels.indexOf(panel), 1)
     }
 
+    /**
+     * Updates all panels in the UI
+     */
     static updatePanels() {
         for(let row = 0; row < UI.panelNoZone.length; row++) {
             for(let col = 0; col < UI.panelNoZone[row].length; col++) {
@@ -111,6 +133,9 @@ class UI {
         }
     }
 
+    /**
+     * Handles the mouse press event
+     */
     static handleMousePress() {
         if (mouseButton === LEFT) {
             if(this.contextMenu.is_open) UI.contextMenu.close()
@@ -133,11 +158,16 @@ class UI {
                 document.getElementById('UIRoot').appendChild(highestIndexPanel.element.elt || highestIndexPanel.element);
             }
         } else if (mouseButton === RIGHT) {
-            // console.log(UI.contextMenu)
-            UI.contextMenu.open()
+            UI.contextMenu.close()
+            UI.contextMenu.open([new ContextMenuAction("Add Blank Panel", () => {
+                UI.addPanel(new Panel(ceil(random(0, 100000)), createVector(0, 0), createVector(180, 300), "Blank Panel"))
+            }, "Shift + P")])
         }
     }
 
+    /**
+     * Handles the mouse release event
+     */
     static handleMouseRelease() {
         if(mouseButton === LEFT) {
             for(const panel of UI.panels) {
@@ -146,6 +176,9 @@ class UI {
         }
     }
 
+    /**
+     * Automatically aligns all panels in the UI using the findOptimalPosition method
+     */
     static autoAlignAllPanels() {
         for(let panel of UI.panels) {
             let position = UI.findOptimalPosition(panel);
@@ -158,6 +191,15 @@ class UI {
                 }
                 panel.setPosition(col * UI.panel5Config.get("grid_unit_size").value, row * UI.panel5Config.get("grid_unit_size").value);
             }
+        }
+    }
+
+    /**
+     * Removes all panels from the UI
+     */
+    static removeAllPanels() {
+        for(let panel = 1; panel < UI.panels.length; panel++) {
+            UI.panels[panel].close()
         }
     }
 }

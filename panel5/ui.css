@@ -11,15 +11,18 @@
 
     --panel-font-size: 9px;
     --panel-background: rgba(0, 0, 0, 0.5);
+    --input-background: rgba(0, 0, 0, 0.15);
     --panel-rounding: 5px;
     --panel-border: 1px solid var(--border-color);
     --panel-hover-border: 1px solid rgba(255, 255, 255, 0.75);
     --panel-close-outline: 0 0 0 3px var(--no-color);
     --panel-lock-outline: 0 0 0 3px var(--accent-color);
+    overflow: hidden;   
 }
 
 #UIRoot {
     position: absolute;
+    overflow: hidden;
 }
 
 .Panel {
@@ -32,6 +35,14 @@
     padding: none;
     margin: 0;
     opacity: 100%;
+    overflow: hidden;
+}
+
+.RegistryPanelContent {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .Panel .TitleBar {
@@ -109,7 +120,7 @@ button {
     color: white;
     font-weight: 400;
     font-size: calc(var(--font-scale) * var(--panel-font-size));
-    background: var(--panel-background);
+    background: var(--input-background);
     border: none;
     padding: 5px;
     margin-right: 10px;
@@ -121,7 +132,7 @@ button {
     color: white;
     font-weight: 400;
     font-size: calc(var(--font-scale) * var(--panel-font-size));
-    background: var(--panel-background);
+    background: var(--input-background);
     border: none;
     padding: 5px;
     margin-right: 10px;
@@ -134,7 +145,8 @@ button {
 }
 
 .ColorInput {
-    background: var(--panel-background);
+    background: var(--input-background);
+    border: none;
     width: 30px;
     aspect-ratio: 1;
     padding: none;
@@ -146,11 +158,11 @@ button {
     color: white;
     font-weight: 400;
     font-size: calc(var(--font-scale) * var(--panel-font-size));
-    background: var(--panel-background);
+    background: var(--input-background);
     border: none;
     padding: 5px;
     margin-right: 10px;
-    width: 50px;
+    max-width: 100px;
 }
 
 .StaticTopBar {
@@ -164,37 +176,78 @@ button {
 #ContextMenu {
     position: absolute;
     background: var(--panel-background);
-    backdrop-filter: var(--background-blur);
+    backdrop-filter: blur(var(--background-blur));
     border-radius: var(--panel-rounding);
     width: 150px;
     height: auto;
     opacity: 0%;
     transition: opacity 0.075s ease-in-out;
   }
-  
-  .ContextMenuAction {
-    border: none;
-    width: inherit;
+
+.ContextMenuAction {
+border: none;
+width: inherit;
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: transparent;
+padding: 5px;
+font-family: "IBM Plex Mono";
+cursor: pointer;
+color: white;
+transition: color 0.05 ease-in-out;
+}
+
+.ContextMenuAction:hover {
+color: rgb(255, 199, 110)
+}
+
+.ContextMenuActionLabel {
+font-size: calc(var(--font-scale) * 8px);
+}
+
+.ContextMenuActionShortcut {
+color: rgba(255, 255, 255, 0.25);
+font-size:calc(var(--font-scale) * 6px);
+}
+
+.Divider {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    background: transparent;
-    padding: 5px;
-    font-family: "IBM Plex Mono";
-    cursor: pointer;
+}
+
+.DividerLabel {
+    font-family: var(--title-font);
+    font-weight: 500;
+    font-size: calc(var(--font-scale) * 12px);
+    padding: none;
+    padding-top: 10px;
+    margin: 0;
     color: white;
-    transition: color 0.05 ease-in-out;
+}
+
+.DividerLine {
+    width: 90%;
+    height: 1px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: var(--border-color)
+}
+
+::-webkit-scrollbar {
+    width: 2px;
   }
   
-  .ContextMenuAction:hover {
-    color: rgb(255, 199, 110)
+  ::-webkit-scrollbar-track {
+    background: transparent;
   }
   
-  .ContextMenuActionLabel {
-    font-size: calc(var(--font-scale) * 8px);
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
   }
   
-  .ContextMenuActionShortcut {
-    color: rgba(255, 255, 255, 0.25);
-    font-size:calc(var(--font-scale) * 6px);
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
   }
