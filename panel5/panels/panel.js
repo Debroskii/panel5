@@ -1,25 +1,40 @@
 class Panel extends Draggable {
-    constructor(id, position, dimensions, title = id, _static = false) {
+    constructor(id, position, dimensions, title = id, _static = false, _show_title = true) {
         super(position, createVector(dimensions.x, 20), _static)
         this.id = id,
         this.dimensions = dimensions
         this.locked = _static
         this._static = _static
+        this._show_title = _show_title
 
         // DOM Element
         this.element = createDiv("").id(this.id).addClass("Panel")
         this.element.style("width", this.dimensions.x + "px").style("height", this.dimensions.y + "px")
-        this.element.child(createTitleBar(title, [createIconButton("assets/icon/close.png", () => {
-            this.element.style("opacity", "0")
-            setTimeout(() => {
-                this.element.remove()
-                UI.removePanel(this)
-            }, 100)
-        }, 20)], [createIconButton("assets/icon/open_lock.png", () => {this.toggleLock()}, 20)]))
+        if(this._show_title) {
+            this.element.child(createTitleBar(title, [createIconButton("assets/icon/close.png", () => {
+                this.removeFromNoZone()
+                this.element.style("opacity", "0")
+                setTimeout(() => {
+                    this.element.remove()
+                    UI.removePanel(this)
+                }, 100)
+            }, 20)], [createIconButton("assets/icon/open_lock.png", () => {this.toggleLock()}, 20)])) 
+        }
+        
     }
 
     getDOMElement() {
         return this.element
+    }
+
+    setPosition(x, y) {
+        for(let row = 0; row < ceil(this.dimensions.y / UI.panel5Config.get("grid_unit_size").value); row++) {
+            for(let col = 0; col < ceil(this.dimensions.x / UI.panel5Config.get("grid_unit_size").value); col++) {
+                UI.panelNoZone[row + this.position.y / UI.panel5Config.get("grid_unit_size").value][col + this.position.x / UI.panel5Config.get("grid_unit_size").value] = false
+            }
+        }
+        this.position.set(x, y)
+        this.update()
     }
 
     update() {
@@ -28,7 +43,14 @@ class Panel extends Draggable {
         this.element.style("box-shadow", "none")
         document.getElementById(this.id).style.setProperty("border", "var(--panel-border)")
         if(!this.locked) document.getElementById(this.id).children[0].style.setProperty("border-bottom", "var(--panel-border)")
-        document.getElementById(this.id).children[0].style.setProperty("cursor", this._static ? "arrow" : "move")
+        if(this._show_title) document.getElementById(this.id).children[0].style.setProperty("cursor", this._static ? "arrow" : "move")
+
+        if(this._static) return
+        for(let row = 0; row < ceil(this.dimensions.y / UI.panel5Config.get("grid_unit_size").value); row++) {
+            for(let col = 0; col < ceil(this.dimensions.x / UI.panel5Config.get("grid_unit_size").value); col++) {
+                UI.panelNoZone[row + ceil(this.position.y / UI.panel5Config.get("grid_unit_size").value)][col + ceil(this.position.x / UI.panel5Config.get("grid_unit_size").value)] = true
+            }
+        }
     }
 
     updateStyle() {
@@ -63,6 +85,15 @@ class Panel extends Draggable {
             return true
         } else {
             return false
+        }
+    }
+
+    removeFromNoZone() {
+        if(this._static) return
+        for(let row = 0; row < ceil(this.dimensions.y / UI.panel5Config.get("grid_unit_size").value); row++) {
+            for(let col = 0; col < ceil(this.dimensions.x / UI.panel5Config.get("grid_unit_size").value); col++) {
+                UI.panelNoZone[row + this.position.y / UI.panel5Config.get("grid_unit_size").value][col + this.position.x / UI.panel5Config.get("grid_unit_size").value] = false
+            }
         }
     }
 
