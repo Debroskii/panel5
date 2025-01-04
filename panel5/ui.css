@@ -23,6 +23,9 @@
 #UIRoot {
     position: absolute;
     overflow: hidden;
+    background: url("https://images.unsplash.com/photo-1516690553959-71a414d6b9b6?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: 100%;
+    background-position-y: -1250px;
 }
 
 .Panel {
@@ -250,4 +253,19 @@ font-size:calc(var(--font-scale) * 6px);
   
   ::-webkit-scrollbar-thumb:hover {
     background: var(--accent-color);
+  }
+
+  .BigText {
+    color: white;
+    font-family: var(--title-font);
+    font-weight: 800;
+    font-size: 150px;
+    line-height: 0px;
+    padding: 0;
+    margin-top: 65%;
+    text-align: center;;
+  }
+
+  #F {
+    color: var(--accent-color)
   }

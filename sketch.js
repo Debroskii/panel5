@@ -20,7 +20,32 @@ function setup() {
 
   UI.initialize()
 
-  UI.addPanel(new RegistryPanel(test_registry, createVector(0, 0), createVector(180, 280), "Test Registry"))
+  let PPanel = new Panel(" ", createVector(0, 0), createVector(120, 180), " ", false, true)
+  PPanel.element.child(createP("P").addClass("BigText"))
+
+  let APanel = new Panel(" ", createVector(0, 0), createVector(120, 180), " ", false, true)
+  APanel.element.child(createP("A").addClass("BigText"))
+
+  let NPanel = new Panel(" ", createVector(0, 0), createVector(120, 180), " ", false, true)
+  NPanel.element.child(createP("N").addClass("BigText"))
+
+  let EPanel = new Panel(" ", createVector(0, 0), createVector(120, 180), " ", false, true)
+  EPanel.element.child(createP("E").addClass("BigText"))
+
+  let LPanel = new Panel(" ", createVector(0, 0), createVector(120, 180), " ", false, true)
+  LPanel.element.child(createP("L").addClass("BigText"))
+
+  let FPanel = new Panel(" ", createVector(0, 0), createVector(120, 180), " ", false, true)
+  FPanel.element.child(createP("5").addClass("BigText").id("F"))
+
+  UI.addPanel(PPanel)
+  UI.addPanel(APanel)
+  UI.addPanel(NPanel)
+  UI.addPanel(EPanel)
+  UI.addPanel(LPanel)
+  UI.addPanel(FPanel)
+
+  // UI.addPanel(new RegistryPanel(test_registry, createVector(0, 0), createVector(180, 280), "Test Registry"))
 }
 
 function draw() {
